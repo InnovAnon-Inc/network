@@ -5,6 +5,9 @@
 /*#define _BSD_SOURCE*/
 #define _DEFAULT_SOURCE
 
+#ifndef NDEBUG
+#include <stdio.h>
+#endif
 #include <strings.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -17,7 +20,8 @@
 #include <network-client.h>
 
 typedef struct {
-   char const (*restrict addr)[];
+   /*char const (*restrict addr)[];*/
+   char const *restrict addr;
    clientcb_t cb;
    void *restrict args;
 } networkcb_args_t;
@@ -26,8 +30,14 @@ __attribute__ ((nonnull (2, 3), warn_unused_result))
 static int networkcb (socket_t s, struct sockaddr_in *restrict si_other,
    void *restrict args) {
    networkcb_args_t *restrict my_args = args;
+#ifndef NDEBUG
+   puts ("networkcb()");
+   /*puts (*(my_args->addr));*/
+   puts (my_args->addr);
+#endif
 
-   error_check (inet_aton (*(my_args->addr), &(si_other->sin_addr)) == 0) {
+   /*error_check (inet_aton (*(my_args->addr), &(si_other->sin_addr)) == 0) {*/
+   error_check (inet_aton (my_args->addr, &(si_other->sin_addr)) == 0) {
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wunused-result"
       r_close (s);
@@ -52,8 +62,13 @@ int network_client (
    clientcb_t cb,
    void *restrict cb_args) {
    networkcb_args_t args;
-   /* TODO why is this an incompatible pointer type? */
-   args.addr = (char const (*)[]) &addr;
+#ifndef NDEBUG
+   puts ("network_client()");
+   puts (addr);
+#endif
+   TODO (why is this an incompatible pointer type?)
+   /*args.addr = (char const (*)[]) &addr;*/
+   args.addr = addr;
    args.cb   = cb;
    args.args = cb_args;
 	#pragma GCC diagnostic push

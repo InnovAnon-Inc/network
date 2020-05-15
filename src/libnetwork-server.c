@@ -4,6 +4,9 @@
 
 #define inline __inline__
 
+#ifndef NDEBUG
+#include <stdio.h>
+#endif
 #include <strings.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -29,6 +32,9 @@ __attribute__ ((nonnull (2, 3), warn_unused_result))
 static int networkcb (socket_t s, struct sockaddr_in *restrict si_me,
    void *restrict args) {
    networkcb_args_t *restrict my_args = args;
+#ifndef NDEBUG
+   puts("networkcb()");
+#endif
 
    si_me->sin_addr.s_addr = htonl (my_args->addr);
    
@@ -61,6 +67,9 @@ int network_server (
    uint16_t port, uint32_t addr, int type, int protocol,
    servercb_t cb, void *restrict cb_args) {
    networkcb_args_t args;
+#ifndef NDEBUG
+   puts("network_server()");
+#endif
    args.addr = addr;
    args.cb   = cb;
    args.args = cb_args;

@@ -5,6 +5,9 @@
 /*#define _BSD_SOURCE*/
 #define _DEFAULT_SOURCE
 
+#ifndef NDEBUG
+#include <stdio.h>
+#endif
 #include <strings.h>
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -23,6 +26,9 @@ int network (
    struct sockaddr_in si_other;
 
    const socket_t s = socket (AF_INET, type, protocol);
+#ifndef NDEBUG
+   puts("network()");
+#endif
    error_check (s == -1) return -1;
 
    bzero (&si_other, sizeof (si_other));
