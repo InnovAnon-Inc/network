@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+#network_utility=network-test
+
+Name: @PACKAGE_NAME@ client
+Description: network client library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lnetwork
+Cflags: -I${includedir}
+Requires: glitter
+Requires.private: librestart
+
