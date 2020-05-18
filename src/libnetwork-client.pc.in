@@ -5,7 +5,7 @@ includedir=@includedir@
 
 #network_utility=network-test
 
-Name: @PACKAGE_NAME@_client
+Name: @PACKAGE_NAME@-client
 Description: network client library
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lnetwork
