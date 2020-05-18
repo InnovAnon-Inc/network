@@ -8,7 +8,7 @@ includedir=@includedir@
 Name: @PACKAGE_NAME@-server
 Description: network server library
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lnetwork
+Libs: -L${libdir} -lnetwork-server -lnetwork
 Cflags: -I${includedir}
 Requires: glitter
 Requires.private: librestart
